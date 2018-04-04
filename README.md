@@ -1,1 +1,1 @@
-# PluginPlatform
+关于Android插件技术原理备录
