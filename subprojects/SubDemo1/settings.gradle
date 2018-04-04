@@ -1,0 +1,4 @@
+include ':app'
+include ':pluginLibrary'
+
+project(':pluginLibrary').projectDir = file('../PluginLibrary')
