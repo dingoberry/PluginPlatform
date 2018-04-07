@@ -35,9 +35,16 @@ class ReflectUtils {
 
     static Object invokeMethod(Object obj, String methodName, Object[] parameters, Class<?>[] parameterClzs) throws Exception {
         Class<?> clz = obj.getClass();
-        Method m = clz.getDeclaredMethod(methodName, parameterClzs);
-        m.setAccessible(true);
-        return m.invoke(obj, parameters);
+        Method m;
+        try {
+            m = clz.getMethod(methodName, parameterClzs);
+            return m.invoke(obj, parameters);
+        } catch (Exception e) {
+            clz = obj.getClass();
+            m = clz.getDeclaredMethod(methodName, parameterClzs);
+            m.setAccessible(true);
+            return m.invoke(obj, parameters);
+        }
     }
 
     static Object invokeField(Object obj, String fieldName) throws Exception {
