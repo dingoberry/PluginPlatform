@@ -20,6 +20,9 @@ public class ProxyService extends Service {
             return null;
         }
         String serviceName = intent.getStringExtra(Constants.EXTRA_TARGET);
+        if (null == serviceName) {
+            return null;
+        }
         Service target = mTargetMap.get(serviceName);
         if (null != target) {
             return target;
@@ -40,22 +43,14 @@ public class ProxyService extends Service {
         return target;
     }
 
-    private <T> T invokeMethod(Service target, String methodName, Object[] parameters, Class<?>[] parameterClzs) {
-        if (null == target) {
-            return null;
-        }
-        try {
-            return (T) ReflectUtils.invokeMethod(target, methodName, parameters, parameterClzs);
-        } catch (Exception e) {
-            Logger.e(e);
-        }
-        return null;
-    }
-
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        return invokeMethod(initTarget(intent), "onBind", new Object[]{intent}, new Class[]{Intent.class});
+        Service service = initTarget(intent);
+        if (null != service) {
+            return service.onBind(intent);
+        }
+        return null;
     }
 
     @Override
@@ -71,27 +66,55 @@ public class ProxyService extends Service {
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
+        for (Service service : mTargetMap.values()) {
+            service.onConfigurationChanged(newConfig);
+        }
         super.onConfigurationChanged(newConfig);
     }
 
     @Override
+    public boolean stopService(Intent intent) {
+        String serviceName = intent.getStringExtra(Constants.EXTRA_TARGET);
+        if (null != serviceName) {
+            Service service = mTargetMap.remove(serviceName);
+            if (null != service) {
+                service.onDestroy();
+            }
+        }
+        if (mTargetMap.isEmpty()) {
+            stopSelf();
+        }
+        return true;
+    }
+
+    @Override
     public void onLowMemory() {
+        for (Service service : mTargetMap.values()) {
+            service.onLowMemory();
+        }
         super.onLowMemory();
     }
 
     @Override
     public void onTrimMemory(int level) {
+        for (Service service : mTargetMap.values()) {
+            service.onLowMemory();
+        }
         super.onTrimMemory(level);
     }
 
     @Override
     public boolean onUnbind(Intent intent) {
-        return invokeMethod(initTarget(intent), "onUnbind", new Object[]{intent}, new Class[]{Intent.class});
+        String serviceName = intent.getStringExtra(Constants.EXTRA_TARGET);
+        return null != serviceName && mTargetMap.get(serviceName).onUnbind(intent);
     }
 
     @Override
     public void onRebind(Intent intent) {
-          invokeMethod(initTarget(intent), "onRebind", new Object[]{intent}, new Class[]{Intent.class});
+        Service service = initTarget(intent);
+        if (null != service) {
+            service.onRebind(intent);
+        }
     }
 
     @Override
@@ -100,7 +123,10 @@ public class ProxyService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        return (int) invokeMethod(initTarget(intent), "onStartCommand", new Object[]{intent, flags, startId},
-                new Class[]{Intent.class, int.class, int.class});
+        Service service = initTarget(intent);
+        if (null != service) {
+            return service.onStartCommand(intent, flags, startId);
+        }
+        return super.onStartCommand(intent, flags, startId);
     }
 }
