@@ -48,7 +48,7 @@ class DexManager {
 
     private static Intent wrapIntent(Activity cxt, String key, Intent intent) {
         Intent realIntent = new Intent(cxt, ProxyActivity.class);
-        realIntent.putExtra(Constants.EXTRA_ACTIVITY, intent.getComponent().getClassName());
+        realIntent.putExtra(Constants.EXTRA_TARGET, intent.getComponent().getClassName());
         realIntent.putExtra(Constants.EXTRA_KEY, key);
         return realIntent;
     }

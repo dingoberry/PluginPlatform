@@ -72,7 +72,7 @@ public class MainActivity extends Activity {
         }
 
         Intent intent = new Intent(this, ProxyActivity.class);
-        intent.putExtra(Constants.EXTRA_ACTIVITY, activityName);
+        intent.putExtra(Constants.EXTRA_TARGET, activityName);
         intent.putExtra(Constants.EXTRA_KEY, pluginName);
         startActivity(intent);
     }

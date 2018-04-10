@@ -32,7 +32,7 @@ public class ProxyActivity extends Activity {
         }
 
         try {
-            String activityName = getIntent().getStringExtra(Constants.EXTRA_ACTIVITY);
+            String activityName = getIntent().getStringExtra(Constants.EXTRA_TARGET);
             Class<?> clz = mConfig.classLoader.loadClass(activityName);
             mTarget = (Activity) ReflectUtils.newInstance(clz);
             for (ActivityInfo activityInfo : mConfig.packageInfo.activities) {
