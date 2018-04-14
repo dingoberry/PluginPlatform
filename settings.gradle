@@ -1,1 +1,4 @@
-include ':app'
+include ':app', ':libCommon', ':libHost'
+
+project(':libCommon').projectDir=file("subprojects/LibPlatformCommon")
+project(':libHost').projectDir=file("subprojects/LibPlatformSDK")

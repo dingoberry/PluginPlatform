@@ -4,7 +4,10 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/SubDemo1.iml" filepath="$PROJECT_DIR$/SubDemo1.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../PluginLibrary/pluginLibrary.iml" filepath="$PROJECT_DIR$/../PluginLibrary/pluginLibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../LibPlatformPlugin/libClient.iml" filepath="$PROJECT_DIR$/../LibPlatformPlugin/libClient.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../LibPlatformCommon/libCommon.iml" filepath="$PROJECT_DIR$/../LibPlatformCommon/libCommon.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../LibPlatformSDK/libSDK.iml" filepath="$PROJECT_DIR$/../LibPlatformSDK/libSDK.iml" />
+      <module fileurl="file://D:\OwnerStudio\PluginPlatform\subprojects\PluginLibrary\pluginLibrary.iml" filepath="D:\OwnerStudio\PluginPlatform\subprojects\PluginLibrary\pluginLibrary.iml" />
     </modules>
   </component>
 </project>

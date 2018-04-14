@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/PluginPlatform.iml" filepath="$PROJECT_DIR$/PluginPlatform.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/subprojects/LibPlatformCommon/libCommon.iml" filepath="$PROJECT_DIR$/subprojects/LibPlatformCommon/libCommon.iml" />
+      <module fileurl="file://$PROJECT_DIR$/subprojects/LibPlatformSDK/libHost.iml" filepath="$PROJECT_DIR$/subprojects/LibPlatformSDK/libHost.iml" />
     </modules>
   </component>
 </project>

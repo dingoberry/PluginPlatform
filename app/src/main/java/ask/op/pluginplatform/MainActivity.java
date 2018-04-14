@@ -13,13 +13,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
-import dalvik.system.DexClassLoader;
+import ask.op.sdk.common.PkgUtils;
+import ask.op.sdk.host.PluginManager;
 
 public class MainActivity extends Activity {
 
     private ListView mList;
     private String[] mPluginNames;
+    private List<String> mPkgNames;
     private InnerAdapter mAdapter;
 
     @Override
@@ -38,12 +42,14 @@ public class MainActivity extends Activity {
                     mList.setOnItemClickListener(mAdapter);
                 } else {
                     String[] pluginNames = getDir(Constants.PLUGIN_FOLDER, MODE_PRIVATE).list();
+                    List<String> pkgNames = new ArrayList<>();
                     if (null != pluginNames) {
                         for (String pluginName : pluginNames) {
-                            DexManager.register(MainActivity.this,
-                                    new File(getDir(Constants.PLUGIN_FOLDER, MODE_PRIVATE), pluginName));
+                            pkgNames.add(PluginManager.getInstance(MainActivity.this).register(new File(getDir(Constants.PLUGIN_FOLDER, MODE_PRIVATE), pluginName)
+                                    .getAbsolutePath()));
                         }
                         mPluginNames = pluginNames;
+                        mPkgNames = pkgNames;
                         mAdapter = new InnerAdapter();
                         runOnMain = true;
                         AsyJob.runOnUI(this);
@@ -53,7 +59,7 @@ public class MainActivity extends Activity {
         });
     }
 
-    private void startPluginActivity(String pluginName, String activityName) {
+    private void startPluginActivity(String pluginName, String pkgName, String activityName) {
         //        Pair<ActivityInfo, IntentFilter[]> pair =
 //                PkgUtils.queryMainLaunchActivityInfo(this, new File(getDir(Constants.PLUGIN_FOLDER, MODE_PRIVATE), pluginName));
 //        Logger.i(pair.toString());
@@ -70,11 +76,15 @@ public class MainActivity extends Activity {
                 return;
             }
         }
+//
+//        Intent intent = new Intent(this, ProxyActivity.class);
+//        intent.putExtra(Constants.EXTRA_TARGET, activityName);
+//        intent.putExtra(Constants.EXTRA_KEY, pluginName);
+//        startActivity(intent);
 
-        Intent intent = new Intent(this, ProxyActivity.class);
-        intent.putExtra(Constants.EXTRA_TARGET, activityName);
-        intent.putExtra(Constants.EXTRA_KEY, pluginName);
-        startActivity(intent);
+        Intent intent = new Intent();
+        intent.setClassName(pkgName, activityName);
+        PluginManager.startActivity(this, intent);
     }
 
     private class InnerAdapter extends BaseAdapter implements AdapterView.OnItemClickListener {
@@ -106,7 +116,7 @@ public class MainActivity extends Activity {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            startPluginActivity(getItem(position).toString(), null);
+            startPluginActivity(getItem(position).toString(), mPkgNames.get(position), null);
         }
     }
 }

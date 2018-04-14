@@ -7,6 +7,9 @@ import android.content.res.AssetManager;
 import java.io.File;
 import java.io.IOException;
 
+import ask.op.sdk.common.L;
+import ask.op.sdk.common.OsUtils;
+
 public class MyApp extends Application {
 
     @Override
@@ -30,7 +33,7 @@ public class MyApp extends Application {
                                 new File(getDir(Constants.PLUGIN_FOLDER, MODE_PRIVATE), file).getAbsolutePath());
                     }
                 } catch (IOException e) {
-                    Logger.e(e);
+                    L.e(Constants.TAG, e);
                 }
             }
         });

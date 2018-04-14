@@ -1,1 +1,11 @@
 关于Android插件技术原理备录
+
+LibPlatformSDK为插件平台SDK代码
+
+PluginHostActivity在初始化OnCreate时进行以下几个步骤：
+1、读取需要跳转的插件ActivityName，将其通过ClassLoader进行初始化；
+2、将初插件宿主的成员变量复制给始化后的插件Activity的成员变量；
+3、将相关插件的mBase换成插件的PluginContext；
+4、替换插件Activity中的Theme, LayoutInflater, Resources，mComponent, mApplicationInfo；
+5、替换插件Activity中Window中相关LayoutInflater，Style相关
+6、最后代理Activity相关生命周期的接口回调。
