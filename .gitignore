@@ -26,4 +26,5 @@ jni/*/obj/*
 
 subprojects/LibPlatformCommon/build/
 subprojects/LibPlatformSDK/build/
+subprojects/SubDemo1/.idea/
 
