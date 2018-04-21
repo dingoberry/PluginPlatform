@@ -10,6 +10,8 @@ import android.support.annotation.Nullable;
 import java.util.HashMap;
 
 import ask.op.sdk.common.L;
+import ask.op.sdk.common.PluginUtils;
+import ask.op.sdk.common.ReflectUtils;
 
 public class PluginHostService extends Service {
 
@@ -52,6 +54,7 @@ public class PluginHostService extends Service {
         try {
             Class<?> clz = info.classLoader.loadClass(serviceName);
             target = (Service) clz.newInstance();
+            ReflectUtils.copyFields(Service.class, this, target);
             mTargetMap.put(serviceName, target);
         } catch (Exception e) {
             if (DEBUG) {
@@ -77,7 +80,7 @@ public class PluginHostService extends Service {
 
     @Override
     public boolean stopService(Intent intent) {
-        Intent originIntent = PluginManager.getIntent(intent);
+        Intent originIntent = PluginUtils.getIntent(intent);
         if (null == originIntent) {
             return false;
         }
@@ -117,7 +120,7 @@ public class PluginHostService extends Service {
 
     @Override
     public boolean onUnbind(Intent intent) {
-        Intent originIntent = PluginManager.getIntent(intent);
+        Intent originIntent = PluginUtils.getIntent(intent);
         if (null == originIntent) {
             if (DEBUG) {
                 L.i(TAG, "onUnbind:null Intent");
@@ -130,7 +133,7 @@ public class PluginHostService extends Service {
 
     @Override
     public void onRebind(Intent intent) {
-        Intent originIntent = PluginManager.getIntent(intent);
+        Intent originIntent = PluginUtils.getIntent(intent);
         if (null == originIntent) {
             if (DEBUG) {
                 L.i(TAG, "onRebind:null Intent");
@@ -156,7 +159,7 @@ public class PluginHostService extends Service {
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        Intent originIntent = PluginManager.getIntent(intent);
+        Intent originIntent = PluginUtils.getIntent(intent);
         Service service = initTarget(originIntent);
         if (null != service) {
             if (DEBUG) {
@@ -176,7 +179,7 @@ public class PluginHostService extends Service {
             if (DEBUG) {
                 L.i(TAG, "onStartCommand: " + intent);
             }
-            Intent originIntent = PluginManager.getIntent(intent);
+            Intent originIntent = PluginUtils.getIntent(intent);
             Service service = initTarget(originIntent);
             if (null != service) {
                 return service.onStartCommand(originIntent, flags, startId);

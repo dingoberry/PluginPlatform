@@ -6,19 +6,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import ask.op.sdk.host.PluginManager;
+import ask.op.sdk.common.PluginUtils;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         findViewById(R.id.simple).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        Toast.makeText(this.getBaseContext(), "123", Toast.LENGTH_SHORT).show();
-        PluginManager.startService(this, new Intent(this, MyService.class));
+        PluginUtils.startService(this, new Intent(this, MyService.class));
     }
 }

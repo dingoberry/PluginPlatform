@@ -15,6 +15,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 import ask.op.sdk.common.L;
+import ask.op.sdk.common.PluginUtils;
 import ask.op.sdk.common.ReflectUtils;
 
 public class PluginHostActivity extends Activity {
@@ -50,7 +51,7 @@ public class PluginHostActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = PluginManager.getIntent(this);
+        Intent intent = PluginUtils.getIntent(this);
         if (null == intent) {
             finish();
             if (DEBUG) {

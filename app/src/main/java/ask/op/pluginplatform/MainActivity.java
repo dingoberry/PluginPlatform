@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ask.op.sdk.common.PkgUtils;
+import ask.op.sdk.common.PluginUtils;
 import ask.op.sdk.host.PluginManager;
 
 public class MainActivity extends Activity {
@@ -84,7 +85,7 @@ public class MainActivity extends Activity {
 
         Intent intent = new Intent();
         intent.setClassName(pkgName, activityName);
-        PluginManager.startActivity(this, intent);
+        PluginUtils.startActivity(this, intent);
     }
 
     private class InnerAdapter extends BaseAdapter implements AdapterView.OnItemClickListener {

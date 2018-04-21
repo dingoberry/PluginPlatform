@@ -1,11 +1,7 @@
 package ask.op.sdk.host;
 
 
-import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 
@@ -20,10 +16,7 @@ public class PluginManager {
     private static final boolean DEBUG = BuildConfig.DEBUG;
     private static final String TAG = "PluginManager";
 
-    private static final String ORIGIN_INTENT = "origin_intent";
-
     private static PluginManager sInstance;
-
 
     private Context mHostContext;
     private HashMap<String, PluginInfo> mPluginInfoMap;
@@ -42,44 +35,6 @@ public class PluginManager {
             }
         }
         return sInstance;
-    }
-
-    static Intent getIntent(Activity cxt) {
-        return getIntent(cxt.getIntent());
-    }
-
-    static Intent getIntent(Intent intent) {
-        return intent.getParcelableExtra(ORIGIN_INTENT);
-    }
-
-    public static void startActivity(Context cxt, Intent intent) {
-        Intent realIntent = new Intent(cxt, PluginHostActivity.class);
-        realIntent.putExtra(ORIGIN_INTENT, intent);
-        cxt.startActivity(realIntent);
-    }
-
-    public static void startActivityForResult(Activity activity, Intent intent, int requestCode) {
-        Intent realIntent = new Intent(activity, PluginHostActivity.class);
-        realIntent.putExtra(ORIGIN_INTENT, intent);
-        activity.startActivityForResult(realIntent, requestCode);
-    }
-
-    public static ComponentName startService(Context cxt, Intent intent) {
-        Intent realIntent = new Intent(cxt, PluginHostService.class);
-        realIntent.putExtra(ORIGIN_INTENT, intent);
-        return cxt.startService(realIntent);
-    }
-
-    public static boolean stopService(Context cxt, Intent name) {
-        Intent realIntent = new Intent(cxt, PluginHostService.class);
-        realIntent.putExtra(ORIGIN_INTENT, name);
-        return cxt.stopService(realIntent);
-    }
-
-    public static boolean bindService(Context cxt, Intent service, ServiceConnection conn, int flags) {
-        Intent realIntent = new Intent(cxt, PluginHostService.class);
-        realIntent.putExtra(ORIGIN_INTENT, service);
-        return cxt.bindService(realIntent, conn, flags);
     }
 
     PluginInfo queryPluginInfo(String pkgName) {

@@ -9,8 +9,6 @@ obj/
 .cproject
 libs/*.properties
 *.class
-tests/bin/*
-tests/gen/*
 
 # Gradle files
 .gradle/
@@ -25,3 +23,7 @@ jni/*/obj/*
 
 # MAC auto-gen files
 .DS_Store
+
+subprojects/LibPlatformCommon/build/
+subprojects/LibPlatformSDK/build/
+

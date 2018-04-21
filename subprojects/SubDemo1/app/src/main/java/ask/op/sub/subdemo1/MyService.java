@@ -3,8 +3,7 @@ package ask.op.sub.subdemo1;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-
-import ask.op.sdk.common.L;
+import android.widget.Toast;
 
 public class MyService extends Service {
     public MyService() {
@@ -12,13 +11,12 @@ public class MyService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
         return null;
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        L.e("yymm", "HELLO from service!");
+        Toast.makeText(this, "Hi Service", Toast.LENGTH_SHORT).show();
         return super.onStartCommand(intent, flags, startId);
     }
 }

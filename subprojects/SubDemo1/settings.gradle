@@ -1,8 +1,6 @@
 include ':app'
 include ':libClient'
 include ':libCommon'
-include ':libSDK'
 
 project(':libClient').projectDir = file('../LibPlatformPlugin')
 project(':libCommon').projectDir = file('../LibPlatformCommon')
-project(':libSDK').projectDir = file('../LibPlatformSDK')
